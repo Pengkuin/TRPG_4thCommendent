@@ -5,17 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solo TRPG Session</title>
     <style>
+        /* --- 1. 폰트 설정 (리디바탕) --- */
+        @font-face {
+            font-family: 'RIDIBatang';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         /* --- 기본 스타일 --- */
         :root {
             --bg-color: #f4f4f4;
             --text-color: #333;
             --accent-black: #1a1a1a;
-            --border-style: 2px solid #1a1a1a;
-            --dashed-style: 1px dashed #999;
+            --border-style: 1px solid #1a1a1a; /* 외곽선 얇게 수정 */
+            --card-width: 300px; /* 카드 너비 축소 (모바일 최적화) */
+            --card-height: 450px; /* 카드 높이 조정 */
         }
 
         body {
-            font-family: 'Malgun Gothic', sans-serif;
+            font-family: 'RIDIBatang', serif; /* 리디바탕 적용 */
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -23,7 +32,7 @@
             line-height: 1.6;
         }
 
-        /* --- 네비게이션 (목차) --- */
+        /* --- 네비게이션 --- */
         nav {
             position: sticky;
             top: 0;
@@ -33,69 +42,87 @@
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-family: 'Malgun Gothic', sans-serif; /* 메뉴는 고딕이 가독성이 좋음 */
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            font-weight: bold;
             font-size: 0.9rem;
-            padding: 5px 10px;
+            padding: 5px 8px;
             border-radius: 4px;
             transition: background 0.3s;
         }
 
-        nav a:hover {
-            background: #444;
-        }
+        nav a:hover { background: #444; }
 
+        /* --- 메인 컨테이너 --- */
         section {
-            max-width: 800px;
-            margin: 40px auto;
+            max-width: 1000px; /* 넓게 확장 */
+            margin: 30px auto;
             padding: 20px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         h2 {
-            border-bottom: 4px solid var(--accent-black);
+            border-bottom: 2px solid var(--accent-black);
             padding-bottom: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        /* --- 1. 장면표 (10행 2열) --- */
+        /* --- 장면표 --- */
         .scene-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            font-size: 0.95rem;
         }
-
         .scene-table th, .scene-table td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
         }
-
         .scene-table th {
             background-color: var(--accent-black);
             color: white;
         }
+        .scene-table tr:nth-child(even) { background-color: #fafafa; }
 
-        .scene-table tr:nth-child(even) {
-            background-color: #fafafa;
+        /* --- 메인 핸드아웃 (그리드 레이아웃 적용) --- */
+        .handout-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* 모바일: 1열 */
+            gap: 30px;
+            justify-items: center; /* 카드 가운데 정렬 */
         }
 
-        /* --- 2. 메인 핸드아웃 (카드 뒤집기 효과) --- */
+        /* 태블릿 이상: 2열 */
+        @media (min-width: 700px) {
+            .handout-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 데스크탑 이상: 3열 */
+        @media (min-width: 1000px) {
+            .handout-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* --- 카드 개별 스타일 --- */
         .handout-wrapper {
-            perspective: 1000px; /* 3D 효과 깊이감 */
-            width: 350px;
-            height: 500px;
-            margin: 0 auto 30px auto;
+            perspective: 1000px;
+            width: var(--card-width);
+            height: var(--card-height);
             cursor: pointer;
+            /* 모바일에서 화면보다 카드가 클 경우를 대비해 max-width 설정 */
+            max-width: 100%; 
         }
 
         .handout-card {
@@ -103,11 +130,10 @@
             width: 100%;
             height: 100%;
             text-align: left;
-            transition: transform 0.8s;
+            transition: transform 0.6s;
             transform-style: preserve-3d;
         }
 
-        /* 클래스가 추가되면 회전 */
         .handout-wrapper.flipped .handout-card {
             transform: rotateY(180deg);
         }
@@ -116,26 +142,24 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden; /* 뒷면 안 보이게 */
-            border: 4px solid var(--accent-black);
+            backface-visibility: hidden;
+            border: 1px solid var(--accent-black); /* 외곽선 얇게 */
             background: white;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1); /* 약간의 그림자 추가 */
         }
 
-        .card-back {
-            transform: rotateY(180deg); /* 뒷면은 미리 뒤집어둠 */
-        }
+        .card-back { transform: rotateY(180deg); }
 
-        /* 핸드아웃 내부 디자인 (이미지 참고) */
+        /* 내부 요소 디자인 */
         .ho-header {
             background: var(--accent-black);
             color: white;
             text-align: center;
-            font-family: serif;
-            font-size: 1.5rem;
-            padding: 10px 0;
+            font-size: 1.2rem;
+            padding: 8px 0;
             font-weight: bold;
         }
 
@@ -144,20 +168,25 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            overflow-y: auto; /* 내용이 넘치면 스크롤 */
         }
+
+        /* 스크롤바 숨김 (깔끔하게) */
+        .ho-content::-webkit-scrollbar { width: 5px; }
+        .ho-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
 
         .ho-title-box {
             display: flex;
-            border: 2px solid var(--accent-black);
-            margin-bottom: 15px;
+            border: 1px solid var(--accent-black); /* 내부 선도 얇게 */
+            margin-bottom: 12px;
         }
 
         .ho-label {
             background: white;
-            padding: 5px 10px;
+            padding: 5px 8px;
             font-weight: bold;
-            border-right: 2px solid var(--accent-black);
-            min-width: 50px;
+            border-right: 1px solid var(--accent-black);
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -168,37 +197,36 @@
             flex-grow: 1;
             display: flex;
             align-items: center;
+            font-size: 0.9rem;
         }
 
         .ho-section-title {
             text-align: center;
             font-weight: bold;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 3px;
         }
 
         .ho-text-lines {
-            background-image: repeating-linear-gradient(white 0px, white 29px, #ccc 30px);
-            line-height: 30px;
+            /* 줄 노트 느낌 */
+            background-image: repeating-linear-gradient(white 0px, white 27px, #eee 28px);
+            line-height: 28px;
+            font-size: 0.9rem;
             flex-grow: 1;
-            font-size: 0.95rem;
         }
         
-        /* 뒷면 전용 스타일 */
-        .card-back .ho-header {
-            background: var(--accent-black); 
-        }
-
+        /* 뒷면 전용 */
         .ho-shock-box {
             display: flex;
-            border: 2px solid var(--accent-black);
+            border: 1px solid var(--accent-black);
             margin-bottom: 10px;
         }
         .ho-shock-item {
             flex: 1;
             padding: 5px;
-            border-right: 2px solid var(--accent-black);
+            border-right: 1px solid var(--accent-black);
+            font-size: 0.9rem;
         }
         .ho-shock-item:last-child { border-right: none; }
         
@@ -206,50 +234,29 @@
             background: var(--accent-black);
             color: white;
             text-align: center;
-            padding: 10px;
-            font-size: 0.8rem;
+            padding: 8px;
+            font-size: 0.75rem;
             margin-top: auto;
         }
 
-        /* --- 3. 마스터 장면 (아코디언) --- */
+        /* --- 마스터 장면 --- */
         details {
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            padding: 0.5em 0.5em 0;
+            padding: 0;
             margin-bottom: 15px;
             background-color: #fff;
         }
-
         summary {
             font-weight: bold;
-            margin: -0.5em -0.5em 0;
             padding: 15px;
             cursor: pointer;
-            background-color: #eee;
-            list-style: none; /* 기본 화살표 제거 (선택사항) */
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            transition: 0.2s;
         }
-        
-        summary:hover {
-            background-color: #e2e2e2;
-        }
-
-        summary::before {
-            content: "🔒 "; /* 잠금 아이콘 */
-        }
-
-        details[open] summary::before {
-            content: "🔓 "; /* 열림 아이콘 */
-        }
-
-        details[open] summary {
-            border-bottom: 1px solid #ccc;
-            background-color: #ddd;
-        }
-
-        .scene-content {
-            padding: 20px;
-            border-top: 1px solid #ddd;
-        }
+        summary:hover { background-color: #eee; }
+        .scene-content { padding: 20px; border-top: 1px solid #ddd; }
 
     </style>
 </head>
@@ -258,125 +265,170 @@
     <nav>
         <a href="#madness-cards">광기 카드</a>
         <a href="#scene-table">장면표</a>
-        <a href="#handouts">메인 핸드아웃</a>
+        <a href="#handouts">핸드아웃</a>
         <a href="#master-scenes">마스터 장면</a>
     </nav>
 
     <section id="madness-cards">
         <h2>광기 카드</h2>
-        <p>여기에 광기 카드 덱이나 리스트를 작성하세요. (추후 기능 확장 가능)</p>
+        <p style="text-align: center;">(여기에 카드 리스트 구현)</p>
     </section>
 
     <section id="scene-table">
         <h2>장면표</h2>
         <table class="scene-table">
             <thead>
-                <tr>
-                    <th style="width: 10%">2d6</th>
-                    <th>장면 내용</th>
-                </tr>
+                <tr><th style="width: 15%">2d6</th><th>장면 내용</th></tr>
             </thead>
             <tbody>
-                <tr><td>2</td><td>완전한 정적. 무언가 잘못되었다는 느낌이 든다.</td></tr>
-                <tr><td>3</td><td>멀리서 들려오는 비명소리. 당신은 소리의 근원지를 찾는다.</td></tr>
-                <tr><td>4</td><td>갑자기 정전이 발생한다. 어둠 속에서 기척이 느껴진다.</td></tr>
-                <tr><td>5</td><td>피 묻은 쪽지를 발견한다. 내용은 알 수 없다.</td></tr>
-                <tr><td>6</td><td>오래된 라디오에서 지직거리는 잡음과 함께 목소리가 들린다.</td></tr>
-                <tr><td>7</td><td>평온한 일상... 처럼 보이지만 위화감이 든다. (회복 판정 가능)</td></tr>
-                <tr><td>8</td><td>누군가 당신을 지켜보고 있다는 시선을 강하게 느낀다.</td></tr>
-                <tr><td>9</td><td>과거의 끔찍한 기억이 플래시백처럼 스쳐 지나간다.</td></tr>
-                <tr><td>10</td><td>우연히 마주친 낯선 사람. 그는 무언가 알고 있는 눈치다.</td></tr>
-                <tr><td>11</td><td>단서가 될만한 물건이 파손된 채 발견된다.</td></tr>
-                <tr><td>12</td><td>결정적인 힌트, 혹은 끔찍한 진실의 조각을 발견한다.</td></tr>
+                <tr><td>2</td><td>완전한 정적. 무언가 잘못되었다.</td></tr>
+                <tr><td>3</td><td>멀리서 들려오는 비명소리.</td></tr>
+                <tr><td>4</td><td>정전이 발생한다. 어둠 속의 기척.</td></tr>
+                <tr><td>5</td><td>피 묻은 쪽지를 발견한다.</td></tr>
+                <tr><td>6</td><td>라디오 잡음 속 들리는 목소리.</td></tr>
+                <tr><td>7</td><td>평온한 일상 (회복 판정 가능).</td></tr>
+                <tr><td>8</td><td>누군가 지켜보는 시선.</td></tr>
+                <tr><td>9</td><td>과거의 끔찍한 기억.</td></tr>
+                <tr><td>10</td><td>우연히 마주친 낯선 사람.</td></tr>
+                <tr><td>11</td><td>단서가 파손된 채 발견됨.</td></tr>
+                <tr><td>12</td><td>결정적인 힌트 발견.</td></tr>
             </tbody>
         </table>
     </section>
 
     <section id="handouts">
         <h2>메인 핸드아웃</h2>
-        <p style="text-align: center; color: #666; font-size: 0.9rem;">
-            카드를 클릭하면 뒷면(비밀)을 확인할 수 있습니다.<br>
-            다시 클릭하면 앞면으로 돌아옵니다.
-        </p>
-
-        <div class="handout-wrapper" onclick="toggleCard(this)">
-            <div class="handout-card">
-                
-                <div class="card-face card-front">
-                    <div class="ho-header">Handout</div>
-                    <div class="ho-content">
-                        <div class="ho-title-box">
-                            <div class="ho-label">이름</div>
-                            <div class="ho-name">PC 1</div>
-                        </div>
-                        <div class="ho-section-title">사명</div>
-                        <div class="ho-text-lines">
-                            당신은 PC 1이다.<br>
-                            당신은 이 악몽을 끝내주게 즐겨야 한다.<br>
-                            그런데 이를 어쩌지.<br>
-                            핸드아웃에 쓸 내용이 없다.<br>
-                            <br>
-                            <b>당신의 【사명】은 좋은 핸드아웃을<br>
-                            찾는 것이다.</b>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-face card-back">
-                    <div class="ho-header">Handout</div>
-                    <div class="ho-content">
-                        <div class="ho-header" style="background: black; color: white; margin-bottom: 10px; font-size: 1.2rem;">비밀</div>
-                        
-                        <div class="ho-shock-box">
-                            <div class="ho-shock-item"><b>쇼크:</b> 전원</div>
+        
+        <div class="handout-grid">
+            
+            <div class="handout-wrapper" onclick="toggleCard(this)">
+                <div class="handout-card">
+                    <div class="card-face card-front">
+                        <div class="ho-header">Handout</div>
+                        <div class="ho-content">
+                            <div class="ho-title-box">
+                                <div class="ho-label">이름</div>
+                                <div class="ho-name">PC 1</div>
                             </div>
-
-                        <div class="ho-text-lines">
-                            사실은 핸드아웃이 아니라<br>
-                            핸드아웃 템플릿이 없었다.<br>
-                            이럴 수가!<br>
-                            <br>
-                            <b>《놀람》으로 공포판정.</b>
+                            <div class="ho-section-title">사명</div>
+                            <div class="ho-text-lines">
+                                당신은 PC 1이다.<br>
+                                이 게임을 혼자서도 즐길 수 있도록 만들어야 한다.<br>
+                                <br>
+                                <b>【사명】: 웹사이트 완성하기</b>
+                            </div>
                         </div>
                     </div>
-                    <div class="ho-footer-warning">
-                        이 비밀을<br>스스로 밝힐 수는 없다. 🖐️
+                    <div class="card-face card-back">
+                        <div class="ho-header">Handout</div>
+                        <div class="ho-content">
+                            <div class="ho-header" style="background: black; color: white; margin-bottom: 10px;">비밀</div>
+                            <div class="ho-shock-box">
+                                <div class="ho-shock-item"><b>쇼크:</b> 전원</div>
+                            </div>
+                            <div class="ho-text-lines">
+                                사실 코드는 거의 다 완성되었다!<br>
+                                남은 건 시나리오를 채우는 것뿐.<br>
+                                <br>
+                                <b>《놀람》으로 공포판정.</b>
+                            </div>
+                        </div>
+                        <div class="ho-footer-warning">비밀을 스스로 밝힐 수는 없다.</div>
                     </div>
                 </div>
-
             </div>
-        </div>
-    </section>
+
+            <div class="handout-wrapper" onclick="toggleCard(this)">
+                <div class="handout-card">
+                    <div class="card-face card-front">
+                        <div class="ho-header">Handout</div>
+                        <div class="ho-content">
+                            <div class="ho-title-box">
+                                <div class="ho-label">이름</div>
+                                <div class="ho-name">낡은 일기장</div>
+                            </div>
+                            <div class="ho-section-title">개요</div>
+                            <div class="ho-text-lines">
+                                서재 구석에서 발견된 일기장.<br>
+                                겉표지는 곰팡이가 슬어 있다.<br>
+                                내용을 읽어보시겠습니까?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="ho-header">Handout</div>
+                        <div class="ho-content">
+                            <div class="ho-header" style="background: black; color: white; margin-bottom: 10px;">비밀</div>
+                            <div class="ho-shock-box">
+                                <div class="ho-shock-item"><b>쇼크:</b> 없음</div>
+                            </div>
+                            <div class="ho-text-lines">
+                                "그들이 온다. 문을 막아야 해."<br>
+                                뒷장은 피로 얼룩져 읽을 수 없다.<br>
+                                <br>
+                                <b>진통제 아이템 획득.</b>
+                            </div>
+                        </div>
+                        <div class="ho-footer-warning">확산 정보</div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="handout-wrapper" onclick="toggleCard(this)">
+                <div class="handout-card">
+                    <div class="card-face card-front">
+                        <div class="ho-header">Handout</div>
+                        <div class="ho-content">
+                            <div class="ho-title-box">
+                                <div class="ho-label">이름</div>
+                                <div class="ho-name">???</div>
+                            </div>
+                            <div class="ho-text-lines" style="text-align: center; display: flex; align-items: center; justify-content: center;">
+                                미공개 정보
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="ho-header">Handout</div>
+                        <div class="ho-content">
+                            <div class="ho-header" style="background: black; color: white; margin-bottom: 10px;">비밀</div>
+                            <div class="ho-text-lines">
+                                빈 카드입니다.<br>
+                                복사해서 쓰세요.
+                            </div>
+                        </div>
+                        <div class="ho-footer-warning">비밀</div>
+                    </div>
+                </div>
+            </div>
+
+        </div> </section>
 
     <section id="master-scenes">
         <h2>마스터 장면</h2>
         
         <details>
-            <summary>조건: '오래된 열쇠'를 획득하고 [서재]로 이동했을 때 클릭</summary>
+            <summary>🔒 조건: '오래된 열쇠' 획득 시 클릭</summary>
             <div class="scene-content">
                 <h3>장면 1: 서재의 비밀</h3>
-                <p>당신은 떨리는 손으로 열쇠를 구멍에 넣고 돌린다. <i>달칵.</i></p>
-                <p>문이 열리자 쾌쾌한 먼지 냄새와 함께 썩은 내 진동한다.</p>
+                <p>문이 열리자 쾌쾌한 먼지 냄새가 난다.</p>
                 <hr>
-                <p><b>[GM 지시]</b><br>탐색 판정 (난이도 6)을 수행하십시오. 성공 시 '일기장' 핸드아웃을 획득합니다.</p>
+                <p><b>[GM]</b> 탐색 판정 (난이도 6)</p>
             </div>
         </details>
 
         <details>
-            <summary>조건: [지하실]에서 광기 카드가 1장 이상일 때 클릭</summary>
+            <summary>🔒 조건: 광기 카드 1장 이상 시 클릭</summary>
             <div class="scene-content">
                 <h3>장면 2: 어둠 속의 속삭임</h3>
-                <p>정신이 아득해진다. 어둠 속에서 누군가가 당신의 이름을 부르고 있다.</p>
                 <p>"도망칠 수 없어..."</p>
                 <hr>
-                <p><b>[GM 지시]</b><br>전원 이성치(SAN) -1 감소.</p>
+                <p><b>[GM]</b> 전원 이성치(SAN) -1</p>
             </div>
         </details>
-
     </section>
 
     <script>
-        // 카드 뒤집기 기능
         function toggleCard(element) {
             element.classList.toggle('flipped');
         }
