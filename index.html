@@ -4,27 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solo TRPG Session</title>
-    <style>
-        /* --- 1. 폰트 설정 (리디바탕) --- */
-        @font-face {
-            font-family: 'RIDIBatang';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+    
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
+    <style>
         /* --- 기본 스타일 --- */
         :root {
             --bg-color: #f4f4f4;
             --text-color: #333;
             --accent-black: #1a1a1a;
-            --border-style: 1px solid #1a1a1a; /* 외곽선 얇게 수정 */
-            --card-width: 300px; /* 카드 너비 축소 (모바일 최적화) */
-            --card-height: 450px; /* 카드 높이 조정 */
+            --card-width: 300px;
+            --card-height: 450px;
         }
 
         body {
-            font-family: 'RIDIBatang', serif; /* 리디바탕 적용 */
+            /* 폰트 전체 적용 (우선순위 높임) */
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -38,35 +33,37 @@
             top: 0;
             background: var(--accent-black);
             color: white;
-            padding: 10px;
+            padding: 12px;
             z-index: 1000;
             display: flex;
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            font-family: 'Malgun Gothic', sans-serif; /* 메뉴는 고딕이 가독성이 좋음 */
+            /* 네비게이션 폰트도 강제 적용 */
+            font-family: 'Pretendard', sans-serif !important;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            font-size: 0.9rem;
-            padding: 5px 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 5px 10px;
             border-radius: 4px;
             transition: background 0.3s;
         }
 
         nav a:hover { background: #444; }
 
-        /* --- 메인 컨테이너 --- */
+        /* --- 섹션 공통 --- */
         section {
-            max-width: 1000px; /* 넓게 확장 */
+            max-width: 1000px;
             margin: 30px auto;
             padding: 20px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         h2 {
@@ -74,6 +71,7 @@
             padding-bottom: 10px;
             margin-bottom: 30px;
             text-align: center;
+            font-weight: 700;
         }
 
         /* --- 장면표 --- */
@@ -83,37 +81,26 @@
             font-size: 0.95rem;
         }
         .scene-table th, .scene-table td {
-            border: 1px solid #ccc;
-            padding: 10px;
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: center;
         }
         .scene-table th {
             background-color: var(--accent-black);
             color: white;
+            font-weight: 600;
         }
         .scene-table tr:nth-child(even) { background-color: #fafafa; }
 
-        /* --- 메인 핸드아웃 (그리드 레이아웃 적용) --- */
+        /* --- 메인 핸드아웃 (그리드) --- */
         .handout-grid {
             display: grid;
-            grid-template-columns: 1fr; /* 모바일: 1열 */
+            grid-template-columns: 1fr;
             gap: 30px;
-            justify-items: center; /* 카드 가운데 정렬 */
+            justify-items: center;
         }
-
-        /* 태블릿 이상: 2열 */
-        @media (min-width: 700px) {
-            .handout-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* 데스크탑 이상: 3열 */
-        @media (min-width: 1000px) {
-            .handout-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+        @media (min-width: 700px) { .handout-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1000px) { .handout-grid { grid-template-columns: repeat(3, 1fr); } }
 
         /* --- 카드 개별 스타일 --- */
         .handout-wrapper {
@@ -121,8 +108,8 @@
             width: var(--card-width);
             height: var(--card-height);
             cursor: pointer;
-            /* 모바일에서 화면보다 카드가 클 경우를 대비해 max-width 설정 */
             max-width: 100%; 
+            position: relative;
         }
 
         .handout-card {
@@ -134,6 +121,7 @@
             transform-style: preserve-3d;
         }
 
+        /* 뒤집기 상태 */
         .handout-wrapper.flipped .handout-card {
             transform: rotateY(180deg);
         }
@@ -143,120 +131,161 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border: 1px solid var(--accent-black); /* 외곽선 얇게 */
+            border: 1px solid #333;
             background: white;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1); /* 약간의 그림자 추가 */
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
         }
 
         .card-back { transform: rotateY(180deg); }
 
-        /* 내부 요소 디자인 */
+        /* --- 잠금(미획득) 상태 스타일 --- */
+        
+        /* locked 클래스가 있으면 덮개가 보임 */
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3); /* 반투명 흰색 */
+            backdrop-filter: blur(8px); /* 블러 효과 */
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        /* 부모가 locked 클래스를 가질 때만 오버레이 표시 */
+        .handout-wrapper.locked .lock-overlay {
+            opacity: 1;
+            pointer-events: auto; /* 잠겨있을 때만 클릭 감지 */
+            cursor: pointer;
+        }
+
+        /* 잠금 아이콘 */
+        .lock-icon { font-size: 3rem; margin-bottom: 10px; }
+        .lock-text { 
+            background: var(--accent-black); 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            font-size: 0.8rem; 
+        }
+
+        /* --- 핸드아웃 내부 디자인 --- */
         .ho-header {
             background: var(--accent-black);
             color: white;
             text-align: center;
-            font-size: 1.2rem;
-            padding: 8px 0;
-            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            font-weight: 700;
         }
 
         .ho-content {
-            padding: 15px;
+            padding: 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; /* 내용이 넘치면 스크롤 */
+            overflow-y: auto;
         }
-
-        /* 스크롤바 숨김 (깔끔하게) */
-        .ho-content::-webkit-scrollbar { width: 5px; }
-        .ho-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
+        .ho-content::-webkit-scrollbar { width: 4px; }
+        .ho-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
 
         .ho-title-box {
             display: flex;
-            border: 1px solid var(--accent-black); /* 내부 선도 얇게 */
-            margin-bottom: 12px;
+            border: 1px solid var(--accent-black);
+            margin-bottom: 15px;
         }
-
         .ho-label {
-            background: white;
-            padding: 5px 8px;
-            font-weight: bold;
+            background: #eee;
+            padding: 5px 10px;
+            font-weight: 700;
             border-right: 1px solid var(--accent-black);
             font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center;
         }
-
         .ho-name {
             padding: 5px 10px;
             flex-grow: 1;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
+            display: flex; align-items: center;
+            font-weight: 500;
         }
 
         .ho-section-title {
             text-align: center;
-            font-weight: bold;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 3px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            font-size: 0.95rem;
         }
 
         .ho-text-lines {
-            /* 줄 노트 느낌 */
             background-image: repeating-linear-gradient(white 0px, white 27px, #eee 28px);
             line-height: 28px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             flex-grow: 1;
         }
-        
+
         /* 뒷면 전용 */
         .ho-shock-box {
             display: flex;
             border: 1px solid var(--accent-black);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .ho-shock-item {
             flex: 1;
-            padding: 5px;
+            padding: 8px;
             border-right: 1px solid var(--accent-black);
             font-size: 0.9rem;
+            text-align: center;
         }
         .ho-shock-item:last-child { border-right: none; }
-        
+
         .ho-footer-warning {
             background: var(--accent-black);
             color: white;
             text-align: center;
-            padding: 8px;
-            font-size: 0.75rem;
+            padding: 10px;
+            font-size: 0.8rem;
             margin-top: auto;
         }
 
-        /* --- 마스터 장면 --- */
+        /* --- 마스터 장면 (아코디언) --- */
         details {
             border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 0;
+            border-radius: 8px;
             margin-bottom: 15px;
             background-color: #fff;
+            overflow: hidden;
         }
         summary {
-            font-weight: bold;
+            font-weight: 600;
             padding: 15px;
             cursor: pointer;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            transition: 0.2s;
+            background-color: #f8f9fa;
+            transition: background 0.2s;
+            list-style: none;
+            display: flex;
+            align-items: center;
         }
         summary:hover { background-color: #eee; }
-        .scene-content { padding: 20px; border-top: 1px solid #ddd; }
+        summary::before { content: "🔒"; margin-right: 10px; }
+        details[open] summary::before { content: "🔓"; }
+        .scene-content { padding: 25px; border-top: 1px solid #ddd; }
 
     </style>
 </head>
@@ -271,7 +300,7 @@
 
     <section id="madness-cards">
         <h2>광기 카드</h2>
-        <p style="text-align: center;">(여기에 카드 리스트 구현)</p>
+        <p style="text-align: center; color: #666;">(광기 카드 덱 영역)</p>
     </section>
 
     <section id="scene-table">
@@ -298,10 +327,18 @@
 
     <section id="handouts">
         <h2>메인 핸드아웃</h2>
+        <p style="text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: #666;">
+            🔒 자물쇠가 있는 카드는 조건을 만족했을 때 클릭하여 획득하세요.
+        </p>
         
         <div class="handout-grid">
             
-            <div class="handout-wrapper" onclick="toggleCard(this)">
+            <div class="handout-wrapper" onclick="handleCardClick(this)">
+                <div class="lock-overlay">
+                    <div class="lock-icon">🔒</div>
+                    <div class="lock-text">클릭하여 정보 획득</div>
+                </div>
+
                 <div class="handout-card">
                     <div class="card-face card-front">
                         <div class="ho-header">Handout</div>
@@ -313,7 +350,7 @@
                             <div class="ho-section-title">사명</div>
                             <div class="ho-text-lines">
                                 당신은 PC 1이다.<br>
-                                이 게임을 혼자서도 즐길 수 있도록 만들어야 한다.<br>
+                                이 게임을 즐길 준비가 되었는가?<br>
                                 <br>
                                 <b>【사명】: 웹사이트 완성하기</b>
                             </div>
@@ -338,7 +375,12 @@
                 </div>
             </div>
 
-            <div class="handout-wrapper" onclick="toggleCard(this)">
+            <div class="handout-wrapper locked" onclick="handleCardClick(this)">
+                <div class="lock-overlay">
+                    <div class="lock-icon">🔒</div>
+                    <div class="lock-text">조건: 서재 탐색 성공</div>
+                </div>
+
                 <div class="handout-card">
                     <div class="card-face card-front">
                         <div class="ho-header">Handout</div>
@@ -374,17 +416,23 @@
                 </div>
             </div>
 
-             <div class="handout-wrapper" onclick="toggleCard(this)">
+             <div class="handout-wrapper locked" onclick="handleCardClick(this)">
+                <div class="lock-overlay">
+                    <div class="lock-icon">🔒</div>
+                    <div class="lock-text">조건: ??? 확인</div>
+                </div>
+
                 <div class="handout-card">
                     <div class="card-face card-front">
                         <div class="ho-header">Handout</div>
                         <div class="ho-content">
                             <div class="ho-title-box">
                                 <div class="ho-label">이름</div>
-                                <div class="ho-name">???</div>
+                                <div class="ho-name">비밀 서류</div>
                             </div>
-                            <div class="ho-text-lines" style="text-align: center; display: flex; align-items: center; justify-content: center;">
-                                미공개 정보
+                            <div class="ho-text-lines">
+                                인장이 찍혀있는 비밀 서류.<br>
+                                절대로 열어보지 말라는 경고가 있다.
                             </div>
                         </div>
                     </div>
@@ -393,8 +441,8 @@
                         <div class="ho-content">
                             <div class="ho-header" style="background: black; color: white; margin-bottom: 10px;">비밀</div>
                             <div class="ho-text-lines">
-                                빈 카드입니다.<br>
-                                복사해서 쓰세요.
+                                서류는 백지였다.<br>
+                                누군가 바꿔치기 한 것 같다.
                             </div>
                         </div>
                         <div class="ho-footer-warning">비밀</div>
@@ -402,23 +450,24 @@
                 </div>
             </div>
 
-        </div> </section>
+        </div>
+    </section>
 
     <section id="master-scenes">
         <h2>마스터 장면</h2>
         
         <details>
-            <summary>🔒 조건: '오래된 열쇠' 획득 시 클릭</summary>
+            <summary>조건: '오래된 열쇠' 획득 시 클릭</summary>
             <div class="scene-content">
                 <h3>장면 1: 서재의 비밀</h3>
                 <p>문이 열리자 쾌쾌한 먼지 냄새가 난다.</p>
                 <hr>
-                <p><b>[GM]</b> 탐색 판정 (난이도 6)</p>
+                <p><b>[GM]</b> 탐색 판정 (난이도 6). 성공 시 <span style="background:#eee; padding:2px 5px; border-radius:3px;">낡은 일기장</span> 핸드아웃을 확인하세요.</p>
             </div>
         </details>
 
         <details>
-            <summary>🔒 조건: 광기 카드 1장 이상 시 클릭</summary>
+            <summary>조건: 광기 카드 1장 이상 시 클릭</summary>
             <div class="scene-content">
                 <h3>장면 2: 어둠 속의 속삭임</h3>
                 <p>"도망칠 수 없어..."</p>
@@ -429,8 +478,16 @@
     </section>
 
     <script>
-        function toggleCard(element) {
-            element.classList.toggle('flipped');
+        function handleCardClick(element) {
+            // 1. 만약 잠겨있다면(locked)? -> 잠금을 푼다.
+            if (element.classList.contains('locked')) {
+                // 잠금 해제 (블러 사라짐, 앞면 보임)
+                element.classList.remove('locked');
+            } 
+            // 2. 잠겨있지 않다면? -> 카드를 뒤집는다(앞<->뒤).
+            else {
+                element.classList.toggle('flipped');
+            }
         }
     </script>
 
