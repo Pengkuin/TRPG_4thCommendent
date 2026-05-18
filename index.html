@@ -705,7 +705,7 @@
     .pc-handout-front {
       background: linear-gradient(180deg, #ffffff 0%, rgb(230 230 230 / 82%) 100%);
       box-shadow:
-        0 0px 40px #006633;
+        0 0px 10px #00994d;
     }
 
     .pc-handout-front .card-header {
@@ -719,9 +719,8 @@
     .pc-handout-back {
       background: #111;
       box-shadow:
-        0 0 0 1px rgba(100, 220, 120, 0.1),
-        0 4px 16px rgba(40, 160, 70, 0.18),
-        0 12px 40px rgba(20, 120, 50, 0.28);
+        0 0 0 1px rgba(100, 220, 120, 0.18),
+        0 0 10px rgba(40, 180, 80, 0.38);
       transform: rotateY(180deg);
     }
 
@@ -1170,6 +1169,47 @@
     .truth-blurred { filter: blur(5px); transition: filter 0.3s; cursor: pointer; user-select: none; }
     .truth-blurred:hover { filter: blur(3px); }
     .truth-blurred.revealed { filter: none; cursor: default; }
+
+    /* ── BGM Buttons ── */
+    .bgm-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--c-dark3);
+    }
+    .bgm-label {
+      font-family: var(--fn-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--c-muted);
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+    .bgm-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--fn-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-green);
+      background: rgba(0,204,102,0.07);
+      border: 1px solid rgba(0,204,102,0.3);
+      border-radius: 4px;
+      padding: 4px 10px;
+      text-decoration: none;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .bgm-btn:hover {
+      background: rgba(0,204,102,0.18);
+      border-color: var(--c-green);
+      color: var(--c-green);
+    }
 
     /* ── Footer Links ── */
     .footer-link-btn {
@@ -2035,6 +2075,16 @@
     <div class="section-label">Master Scenes</div>
     <h2 class="section-title">마스터 장면</h2>
     <div class="section-divider"></div>
+    <div class="bgm-row" style="margin-bottom: 20px;">
+      <span class="bgm-label">🎵 BGM</span>
+      <span class="bgm-label" style="color: var(--c-muted); font-weight: 400; margin-left: 8px; margin-right: 2px;">드라마</span>
+      <a class="bgm-btn" href="https://youtu.be/9Zh9cAGo-zs?si=0d_vF8XnoA3y1G6q" target="_blank" rel="noopener">▶ 1</a>
+      <a class="bgm-btn" href="https://youtu.be/winLlid4CMo?si=iVhYsDSLAzdtcnHs" target="_blank" rel="noopener">▶ 2</a>
+      <a class="bgm-btn" href="https://youtu.be/6gy86LEoMqw?si=bRM6upy6zYPsgItd" target="_blank" rel="noopener">▶ 3</a>
+      <a class="bgm-btn" href="https://youtu.be/C26LMo16LfQ?si=YIdaYFM-4i9FJ7bx" target="_blank" rel="noopener">▶ 4</a>
+      <span class="bgm-label" style="color: var(--c-muted); font-weight: 400; margin-left: 8px; margin-right: 2px;">5사이클</span>
+      <a class="bgm-btn" href="https://youtu.be/bIXizNU608M?si=f_UJBVfsAzJToa1D" target="_blank" rel="noopener">▶</a>
+    </div>
     <div class="phase-tabs">
       <button class="phase-tab active" onclick="showMasterScene('intro', event)">도입 페이즈</button>
       <button class="phase-tab" onclick="showMasterScene('cycle1', event)">장례식</button>
@@ -2098,6 +2148,12 @@
 
     <div class="climax-box">
 
+      <div class="bgm-row" style="margin-top: 0; padding-top: 0; border-top: none;">
+        <span class="bgm-label">🎵 클라이맥스 BGM</span>
+        <a class="bgm-btn" href="https://youtu.be/OhKy40oA2i8?si=UKPpQA9d9jB0FhYC" target="_blank" rel="noopener">▶ 1</a>
+        <a class="bgm-btn" href="https://youtu.be/vDqIVN5jdbQ?si=NpBDzl97Gj5nDGgK" target="_blank" rel="noopener">▶ 2</a>
+      </div>
+
       <!-- 문단1 -->
       <p class="climax-box-text">약속한 사흘이 지났습니다. 산안개 인력 훈련소에는 오늘따라 아훤 본사의 직원들이 많이도 찾아왔습니다.
 
@@ -2113,7 +2169,6 @@
       <!-- 이미지 -->
       <figure class="climax-figure">
         <img src="https://i.imgur.com/lZL2U2m.png" alt="Scenario Image" referrerpolicy="no-referrer">
-        <figcaption>[이미지 설명 입력]</figcaption>
       </figure>
 
       <!-- 400 적대 -->
@@ -2275,7 +2330,7 @@
 
   <!-- 9. Ending -->
   <section class="section" id="ending">
-    <div class="section-label">Ending Phase</div>
+    <div class="section-label">Ending</div>
     <h2 class="section-title">엔딩</h2>
     <div class="section-divider"></div>
     <div class="ending-tabs">
@@ -2364,14 +2419,15 @@
 
     const MASTER_SCENES = {
       intro: { title: "도입 페이즈", text: "당신들은 태어났을 적부터 그곳에 자랐습니다.\n\n누군가는 부모의 손에 이끌려 팔아넘겨졌고 누군가는 스스로 왔습니다. NN번, 훈련생, 그것이 당신들을 칭하는 이름의 전부이자 모두의 이름이었습니다.\n\n당신의 또래는 열에서 다섯, 셋, 둘로 수가 줄어들었으나 누구도 의문을 갖진 않았습니다. 여기는 약한 것들은 도태되어 죽는 것이 당연한, 속세의 도덕관념이 존재하지 않는 땅이니까.\n\n이름조차 모른 채 자랐던 장소가 산안개 인력훈련소라는 것으로 불리는 지조차 어른이 되어서야 알았으나, 이것 하나만큼은 절대적으로 알고 있었습니다.\n\n당신은 그저 아훤을 위한 살인도구일 뿐입니다. 이곳 산안개 인력훈련소도, 아훤의 지시에 따라 불필요한 것들을 처분하기 위한 쓰레기 처리장에 불과합니다.\n\n그리고 이 쓰레기들 더미 위에 군림하던 것이 훈련소장이었습니다. 영원할 것 같던 실질적인 지배자, 선생님, 그리고 보호자였으나…\n\n일주일 전, 산안개 인력훈련소장은 죽었습니다.\n\n최고관리자의 공석.\n\n마땅한 자격을 가진 자는 둘. 가장 모범적으로 산안개에 충성하는 직원 NN번과, (PC1)\n항상 바닥을 기는 평가에도 ‘재능’이 있다는 이유만으로 운좋게 계속 살아남았던 직원 NN번. (PC2)\n\n산안개 인력훈련소장 후보자는 둘.\n\n아훤 본사의 전무이사이자, 이번 훈련소장 후보자 시험의 감독관인 400이 찾아와 당신들에게 말하였습니다.\n\n「 오늘부터 시작. 닷새 안에 제시한 ‘시험‘을 성공하고 '살아남은 단 한 사람'만 산안개 인력 훈련소장이 된다. 탈락한 후보자는 처분된다.\n\n시험은 간단하다. 청린회의 회장을 죽이고 기밀 서류를 하나 가지고 와라.\n\n닷새 뒤 다시 찾아오지. 」\n\n▶ HO 「훈련소장(1)」, 「아훤」, 「시험 : 청린회 처리」 공개.", revealHandoutId: [1,2,3]},
-      cycle1: { title: "장례식", text: "장례식장은 드물게 아훤 본사의 조직원들이 찾아왔습니다. 제각각 얼굴과 나이대는 달랐으며 자기소개야 거의 하질 않았으나 훈련소장과 친분이 깊어보였습니다.\n\n대부분 비슷한 감정을 그들은 드러내다가 떠났습니다. 유감, 체념, 슬픔. 얼굴에는 가면을 쓴 듯 무표정했으나 꽉 쥔 주먹과 핏발 서 충혈된 눈까지. 그들은 몇 번 심장 부근의 옷깃을 만지작거리다가 우리들에게 간단한 인사만 하고서 떠났습니다. 어째서였을까요? 분명 우리들은 모두 감정이 없어야할 텐데.\n\n…이유 모를 동정의 시선을 받았습니다.\n\n상주는 PC1이 섰습니다. PC2가 동참해도 되긴 하겠지만 도움이 될 진 모르겠습니다. 3일의 장례 동안 산안개 인력훈련소의 모든 훈련생과 직원, 교관들은 자리를 지켰습니다. 훈련소를 벗어난 새로운 공간에서 다들 낯선 듯 식장 안을 돌아다녔습니다. 그래봤자 정말 바깥으로 나갈 수는 없었지만요. 이 장례식장마저 아훤의 것일 테니….\n\n하지만 장례가 끝나고 남은 수습 절차를 마무리하던 중 낯선 손님이 찾아왔습니다. 아훤 본사에 넘어가야 할 행정 서류는 실수로 산안개 인력훈련소 직원들 손에 들어왔습니다. \n\n산안개 훈련소장이 무연고자가 아니라는 제적등본이었습니다.\n\n<strong>전원《놀람》으로 공포 판정.</strong>\n\n▶ HO 「훈련소장(2)」 공개.", revealHandoutId: 4 },
+      cycle1: { title: "장례식", text: "\n장례식장은 드물게 아훤 본사의 조직원들이 찾아왔습니다. 제각각 얼굴과 나이대는 달랐으며 자기소개야 거의 하질 않았으나 훈련소장과 친분이 깊어보였습니다.\n\n대부분 비슷한 감정을 그들은 드러내다가 떠났습니다. 유감, 체념, 슬픔. 얼굴에는 가면을 쓴 듯 무표정했으나 꽉 쥔 주먹과 핏발 서 충혈된 눈까지. 그들은 몇 번 심장 부근의 옷깃을 만지작거리다가 우리들에게 간단한 인사만 하고서 떠났습니다. 어째서였을까요? 분명 우리들은 모두 감정이 없어야할 텐데.\n\n…이유 모를 동정의 시선을 받았습니다.\n\n상주는 PC1이 섰습니다. PC2가 동참해도 되긴 하겠지만 도움이 될 진 모르겠습니다. 3일의 장례 동안 산안개 인력훈련소의 모든 훈련생과 직원, 교관들은 자리를 지켰습니다. 훈련소를 벗어난 새로운 공간에서 다들 낯선 듯 식장 안을 돌아다녔습니다. 그래봤자 정말 바깥으로 나갈 수는 없었지만요. 이 장례식장마저 아훤의 것일 테니….\n\n하지만 장례가 끝나고 남은 수습 절차를 마무리하던 중 낯선 손님이 찾아왔습니다. 아훤 본사에 넘어가야 할 행정 서류는 실수로 산안개 인력훈련소 직원들 손에 들어왔습니다. \n\n산안개 훈련소장이 무연고자가 아니라는 제적등본이었습니다.\n\n<strong>전원《놀람》으로 공포 판정.</strong>\n\n▶ HO 「훈련소장(2)」 공개.", revealHandoutId: 4, bgm: [{label:'장례식', url:'https://youtu.be/9gyb9lgG5Xo?si=r5qnHeORoWshNbD_'}] },
       cycle2: { title: "4계명", text: "우리들이 아훤에게 충성해야 하는 이유야, 어릴 적부터 세뇌받다시피 배웠으니 ‘당연한 것’이지만. 아훤은 우리들의 주인. 말 그대로 목줄을, 목숨줄을 쥐고 있기 때문입니다.\n\n아훤의 행동강령에 반감을 드러낸 자들은 누구 하나 가릴 것 없이 목숨을 잃었습니다. 아훤의 전무이사이자 1순위 후계자인 400이 훈련소에 나타났을 때 그의 목숨을 노리고 훈련생으로 잠입한 쥐새끼도, 더는 훈련소에 있기 싫다고 탈출을 시도한 동기도, 훈련소 안에서 서로를 사랑하게 된 선배 직원들도.\n\n언제나 끝은 탈출을, 자유를 갈망하였으나 그들은 머지않아 숨이 멎은 채 시체로 끌려나가 이 산 어딘가 흙으로 묻히거나 당신들이 묻어주어야만 했습니다.\n\n감히 아훤에 반하는 생각을 할 때마다 이 심장에 새겨진 저주는 당신의 피를 막을 것입니다. 잊지 마세요. 아훤의 우두머리가 몇 번이고 바뀌어도 당신이 충성해야 할 곳은 아훤일지어니. \n\n다시 4계명을 외워봅시다.\n\n하나, 나에게 이름은 없다.\n\n둘, 나는 감정을 버린다.\n\n셋, 나는 인간이 아닌 도구다.\n\n넷, 나는 아훤에 절대복종한다.\n\n▶ HO  「승계 문제」 공개.", revealHandoutId: 5 },
       cycle3: { title: "산안개", text: "이번주 내내 비가 올 것 같습니다.\n\n안개가 짙어졌습니다. 이 산은 언제나 그랬습니다. 비가 오는 날에는 항상 안개가 꼈고, 그럴 때마다 모든 훈련생과 직원들은 시체, 귀신처럼 멍하니 방에 틀어박혀 있길 마련이었습니다. 마치 우리들의 생기를 먹이로 삼아 더욱더 짙어지는 것 같았습니다.\n\n안개 속에서 도주를 꾀하던 이들은 하루도 채 되지 않아 강물 속 심장이 멎은 채 떠내려왔습니다. 조금이라도 지정된 구역 밖을 벗어나면 우리들의 시야는 안개가 낀 것처럼 새하얘지고 길을 잃고 헤매게 됩니다. 안개에 지배당하다시피 사는 것이 삶이었으나 누구 하나 감히 불만을 내뱉지는 못했습니다.\n\n…머리가 멍합니다. 아훤의 전무이사, 1순위 후계자인 400이 제시했던 시험을 통과한 한 사람만이 훈련소장이 될 수 있습니다. 당신은 응당 이에 복종해야 하고, 살아남아 증명해야 합니다. 이제껏 이 지옥도에서 살아남기 위해 우리들은 매번 목숨을 걸고 보여주어야 했습니다.\n\n아훤의 쓸모 있는 살인도구, 도사견, 이름 없이 번호로만 존재하는 것들. \n\n그러니 이번에도, 이번에도…\n\n…\n\n앞으로 내일이면 400이 찾아옵니다.\n\n▶ HO 「안개 낀 저주」  공개.", revealHandoutId: 6 },
       battle: {
         title: "전투 장면",
         revealHandoutId: null,
+        bgm: [{label:'전투', url:'https://youtu.be/s6T2uFcRnHI?si=0cJWAPvttgqPen2o'}],
         html: `
-<p class="battle-text">외부로 나갈 때 길잡이 역할을 해주던 아훤의 본사 간부가 나타났습니다. 하지만 눈에 익던 얼굴은 아니고, 시험 첫날 우리들 앞에 나타난 자입니다.<br><em><span style="font-family: var(--fn-kopub-batang)"> "반갑다. 전무이사 400이다. 이미 첫날에 만난 적 있지? 훈련소장 시험과 관련된 일이니 내가 직접 안내해주지."</span></em><br><br>400은 우리들과 다르게 산안개 속에서 헤매지 않고 산길을 내려갑니다. 저멀리 승합차가 이미 대기하고 있습니다. 이 광경이야 익숙하긴 하지만.<br><br>차창 너머로 외부의 풍경은 언제나 안개 낀 듯 흐립니다. 당신이 산안개 훈련소를 벗어난 순간부터 감히 쉽게 도망칠 수 없도록 만드는, 늘 겪는 시야니 놀랍지도 않지만요.<br><br>차로 2시간을 달려 도착한 곳은 유령도시. 재개발이 멈추고 정부조차 버린 무법지대의 — 가장 끝자락. 그러나 청린회의 구역이기에 그 누구도 건드리지 않는 암묵적인 지뢰였으나 오늘은 당신이 가야 할 차례입니다.<br><br>접근금지 경고판과 바리케이드를 치워내고 입구로 향하면 경비원으로 보이는 자가 삐딱하게 앞을 가로막고 당신의 분위기를 보자마자 곧장 무전기를 꺼내듭니다. 그 등 뒤로 보이는 것은 허름한 건물 4층. 주상복합단지 앞 흉흉한 분위기를 읽었는지 상복처럼 검은 복을 입은 자들이 뒤이어 하나둘 모습을 드러냅니다.<br><br>혀를 쯧쯧 차는 것이 어째 우리들이 아훤의 도사견이라는 걸 알아챈 모양입니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)">"아훤의 개새끼가 감히 여기까지 단신으로 오다니, 정녕 죽고 싶어 미쳤구나."</span></em><br><br>어느덧 당신 주위로 무기를 든 장정들이 어슬렁거리며 포위망을 좁혀옵니다. 회장이 있는 곳은 4층. 벼랑 끝까지 몰린 자들이 내지르는 고함이 처절하게 들렸습니다.<br><br>400은 담배를 태연히 물며 말합니다. <em><span style="font-family: var(--fn-kopub-batang)">"3시간 안에 해결하고 돌아와라."</span></em><br><br>2층, 3층… 계단을 타고 올라올 때마다 각자 연장을 든 이들이 살기를 보이며 당신에게 달려들었으나 시체만 쌓여갑니다. 4층으로 올라오는 계단까지 온통 피비린내가 풍겨 건물 전체가 썩어버린 것만 같은 향이 풍겼습니다.<br><br>마지막으로 당신의 발목을 붙잡고 있던 자의 힘이 풀리고 나서야 4층, 가장 안쪽, 절대로 열리지 않을 것만 같던 사무실의 문을 강제로 열어젖힐 수 있었습니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)">"아훤의 사냥개군. 정말 우릴 말려 죽이려고 작정한 모양이야."</span></em><br><br>이미 연로할 대로 나이를 먹어 지쳐버린 중년이 담배를 피며 우릴 바라봅니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)">"네가 뭐든 상관없다. 지금이라도 돌아가면 살려주지."</span></em><br><br>순간 책장 뒤편에서 쿵, 하는 소리가 들리더니 가희란의 눈동자가 빠르게 그쪽을 향하다 당신에게 돌아왔습니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)"><strong>"...결국 싸우겠다는거군. 기회를 줬는데도 거부한 건 너다. 단칼에 날 죽일 수 있는지 없는지, 똑바로 보여줘야할 거다!"</strong></em></span></p>
+<p class="battle-text">\n외부로 나갈 때 길잡이 역할을 해주던 아훤의 본사 간부가 나타났습니다. 하지만 눈에 익던 얼굴은 아니고, 시험 첫날 우리들 앞에 나타난 자입니다.<br><em><span style="font-family: var(--fn-kopub-batang)"> "반갑다. 전무이사 400이다. 이미 첫날에 만난 적 있지? 훈련소장 시험과 관련된 일이니 내가 직접 안내해주지."</span></em><br><br>400은 우리들과 다르게 산안개 속에서 헤매지 않고 산길을 내려갑니다. 저멀리 승합차가 이미 대기하고 있습니다. 이 광경이야 익숙하긴 하지만.<br><br>차창 너머로 외부의 풍경은 언제나 안개 낀 듯 흐립니다. 당신이 산안개 훈련소를 벗어난 순간부터 감히 쉽게 도망칠 수 없도록 만드는, 늘 겪는 시야니 놀랍지도 않지만요.<br><br>차로 2시간을 달려 도착한 곳은 유령도시. 재개발이 멈추고 정부조차 버린 무법지대의 — 가장 끝자락. 그러나 청린회의 구역이기에 그 누구도 건드리지 않는 암묵적인 지뢰였으나 오늘은 당신이 가야 할 차례입니다.<br><br>접근금지 경고판과 바리케이드를 치워내고 입구로 향하면 경비원으로 보이는 자가 삐딱하게 앞을 가로막고 당신의 분위기를 보자마자 곧장 무전기를 꺼내듭니다. 그 등 뒤로 보이는 것은 허름한 건물 4층. 주상복합단지 앞 흉흉한 분위기를 읽었는지 상복처럼 검은 복을 입은 자들이 뒤이어 하나둘 모습을 드러냅니다.<br><br>혀를 쯧쯧 차는 것이 어째 우리들이 아훤의 도사견이라는 걸 알아챈 모양입니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)">"아훤의 개새끼가 감히 여기까지 단신으로 오다니, 정녕 죽고 싶어 미쳤구나."</span></em><br><br>어느덧 당신 주위로 무기를 든 장정들이 어슬렁거리며 포위망을 좁혀옵니다. 회장이 있는 곳은 4층. 벼랑 끝까지 몰린 자들이 내지르는 고함이 처절하게 들렸습니다.<br><br>400은 담배를 태연히 물며 말합니다. <em><span style="font-family: var(--fn-kopub-batang)">"3시간 안에 해결하고 돌아와라."</span></em><br><br>2층, 3층… 계단을 타고 올라올 때마다 각자 연장을 든 이들이 살기를 보이며 당신에게 달려들었으나 시체만 쌓여갑니다. 4층으로 올라오는 계단까지 온통 피비린내가 풍겨 건물 전체가 썩어버린 것만 같은 향이 풍겼습니다.<br><br>마지막으로 당신의 발목을 붙잡고 있던 자의 힘이 풀리고 나서야 4층, 가장 안쪽, 절대로 열리지 않을 것만 같던 사무실의 문을 강제로 열어젖힐 수 있었습니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)">"아훤의 사냥개군. 정말 우릴 말려 죽이려고 작정한 모양이야."</span></em><br><br>이미 연로할 대로 나이를 먹어 지쳐버린 중년이 담배를 피며 우릴 바라봅니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)">"네가 뭐든 상관없다. 지금이라도 돌아가면 살려주지."</span></em><br><br>순간 책장 뒤편에서 쿵, 하는 소리가 들리더니 가희란의 눈동자가 빠르게 그쪽을 향하다 당신에게 돌아왔습니다.<br><br><em><span style="font-family: var(--fn-kopub-batang)"><strong>"...결국 싸우겠다는거군. 기회를 줬는데도 거부한 건 너다. 단칼에 날 죽일 수 있는지 없는지, 똑바로 보여줘야할 거다!"</strong></em></span></p>
 
 <div class="battle-enemy-block">
   <table class="battle-table">
@@ -2448,6 +2504,12 @@
       A: `<div style="background: rgba(255,255,255,0.04); border-left: 3px solid var(--c-green); padding: 10px 14px; border-radius: 4px; font-size: 13px; font-weight: 500; color: var(--c-green); margin-bottom: 4px;"> 조건 : 다른 PC를 탈락시켰으며, 아훤에 복종하고 산안개 인력훈련소장이 된다.</div>\n늘 봐왔던 익숙한 광경이, 승리한 PC 발밑에 펼쳐집니다. 아훤에 불복종한 것들의 최후. 그저 한때 발악해 봤자 결국 숨 끊어진 채 널브러진 것들. 당신은 400의 시험에 통과했습니다. 상대 PC의 처분은 (사망하지 않았다면) 이제 훈련소장이 된 당신의 손에 달려있습니다.\n\n<span style="color: var(--c-muted);">(처분 관련해서 PL간 서로 조율하고 RP를 이어가시길 바랍니다. 아래부터 승리한 PC의 지문만 적혀있어, 전투에서 탈락한 PC 관련 지문도 추가하는 등 서술을 함께해주면 좋습니다.)</span>\n\n그날 이후로 산안개 인력훈련소에는 몇 날 며칠 산에 흙을 파헤치고 폐사된 자들을 묻었으며 400은 아훤의 회장으로 새로운 주인이 되었습니다. \n\n그럼에도 크게 달라진 건 없습니다. 서 있는 자리가 조금 더 높아졌을 뿐 눈앞에는 여전히 희뿌연 산안개가 보입니다. 이젠 산에서 내려갈 길을 아는데, 아이러니하게도 나갈 수 없습니다.\n\n그야 당신은 산안개 인력훈련소장이고, 아훤의 지시 없이 밖으로 자유롭게 나가지 못하는 - 여전한 아훤의 사냥개이기 때문입니다.\n\n강당 아래 또다시 새로운 훈련생들이 들어오고, 직원들은 4계명에 복종하여 당신을 따릅니다. 안개 속에서 머리가 아프다면 몇 번이고 4계명을 외우면 됩니다.\n\n복잡한 생각은 어차피 버리는 편이 정신건강에 좋을 겁니다. 같은 직원의 피와 시체를 밟고 아훤에 충성하는 완벽한 살인도구, 감정조차 없는, 이름조차 여전히 존재하지 않는, 훈련소장. 그것이 당신을 일컫는 말이었습니다. \n\n이 땅은 언제나 그랬습니다. 누군가가 죽어야 내가 살 수 있는 삶이었습니다.`,
       B: `<div style="background: rgba(255,255,255,0.04); border-left: 3px solid var(--c-green); padding: 10px 14px; border-radius: 4px; font-size: 13px; font-weight: 500; color: var(--c-green); margin-bottom: 4px;"> 조건 : 모든 저주를 끊고 산안개 인력훈련소에서 도망친다. (의식시트에 성공한 뒤 산안개 인력훈련소에서 도망치길 택한다 등)</div>\n<span style="color: var(--c-muted);">(아래부터 승리한 PC의 지문만 적혀있어, 전투에서 탈락한 PC 관련 지문도 추가하는 등 서술을 함께해주면 좋습니다.) </span>\n\n헤아리기 어려울 적부터 쌓여왔던 산안개의 저주. 그 속에서 죽어갔던 모든 이들의 원한이 오늘로 끝이 났습니다. 아훤의 계명이자 끝을 당신이 말하였으니까. 직원 NN번. 당신이 아훤의 저주입니다.\n\n빗속을 뚫고서 진흙투성이의 산을 몇 시간이고 달려 내려갔습니다. 숨이 차올랐으나 이상하게 지치지 않고 웃음이 터져 나올 것 같습니다. 안개가 걷힌 산이 이런 풍경인지 처음 보았으나 너무나도 푸르고 가슴에 갑갑했던 모든 사슬이 풀린 것처럼 숨쉬기 편합니다. 이렇게 상쾌한 기분이 든 적 있었던가요…\n\n나무들을 해치고 마침내 평지로 나온 당신의 눈앞에 펼쳐진 건 새파란 밤바다를 옆에 둔 마을이었습니다. 흠뻑 젖은 옷으로 아무도 찾지 않은 모래사장을 맨발로 달렸습니다.\n\n저 멀리 낡은 항구가 보입니다. 뒤를 돌아보면 당신이 내려왔던 산이 보입니다. 이제 안개가 걷힌 산은 어딜 가도 보일 평범한 산으로밖에 보이지 않습니다.\n\n그 산을 등지고 당신은 이 땅을 떠납니다.\n\n이제 번호 따위는 버리고 이름을 가집시다. \n당신이 가지고 있는 감정을 그대로 표현해도 아무런 일도 일어나지 않으며\n당신은 그저 평범한 인간입니다.\n\n당신은 아훤의 배신자이자 그들의 저주였습니다.`,
       C: `<div style="background: rgba(255,255,255,0.04); border-left: 3px solid var(--c-green); padding: 10px 14px; border-radius: 4px; font-size: 13px; font-weight: 500; color: var(--c-green); margin-bottom: 4px;"> 조건 : PC가 의식시트를 3단계까지 성공한 후, 괴이와 계약을 이어가 아훤의 회장이 된다.</div>\n<span style="color: var(--c-muted);">(처분 관련해서 PL간 서로 조율하고 RP를 이어가시길 바랍니다. 아래부터 승리한 PC의 지문만 적혀있어, 전투에서 탈락한 PC 관련 지문도 추가하는 등 서술을 함께해주면 좋습니다.)</span><span style="font-family: var(--fn-kopub-batang)";>\n\n코피가 턱을 타고 흐르며 귓가에서 계속 들리던 환청이 사그라들었습니다. 인간이 아닌, 깊이를 헤아릴 수 없는 삿된 것, 모든 저주의 근원이 등 뒤에 계속 달라붙는다는 감각이 피부에서 혈관을 타고 느껴졌습니다.\n\n이제 새로운 아훤의 회장을 계승하는 자, 꼭대기에서 군림하는 자는 당신입니다. 모두가 당신이 명한 저주를 복종할 것이고 이어갈 것입니다.\n\n아무도 생각못했던 밑바닥에서 올라온 회장의 탄생. 피로 얼룩진 강당 끝에 남은 것은 숨 막힐 듯한 적막뿐입니다.\n\n이제 꼭대기까지 올라왔으니 누군가 끌어내리기 전까지 내려갈 수 없습니다. 그러나 달라지는 것도 없습니다. 이제껏 살기 위해 계속 손에 피를 묻혀온 삶이 역전될 리가요.\n\n당신의 말에 사람들이 죽고, 당신의 허락 아래 저주가 퍼져나갑니다. 누군가는 당신을 구원자라 부를지도 모르고, 누군가는 근본도 없는 것이라 탐탁지 않아할지도 모릅니다.\n허나 그런 것은 이제 중요하지 않습니다. 아훤은 언제나 그래왔듯 사람의 의지 따위와 상관없이 이어지는 조직이었고, 아훤을 정하는 것은 이제 당신이기 때문입니다.\n\n오늘부터, 아훤의 저주를 이어가는 자는 당신입니다.</span>`,
+    };
+
+    const ENDING_BGM = {
+      A: [{label:'1', url:'https://youtu.be/IF4t7eJQ88I?si=mEQRawOP4am20x3S'},{label:'2', url:'https://youtu.be/2o-oG9N-458?si=88CG53KNgWrn59YG'},{label:'3', url:'https://youtu.be/1wSh2FFeL2E?si=2hhO2Z6gBFPTMCdJ'}],
+      B: [{label:'1', url:'https://youtu.be/wikCVdrhsJc?si=fkB6Cd31Xzzh0Msc'},{label:'2', url:'https://youtu.be/bZ_3UDneAy8?si=dsDgnTNvyp9pVRsm'},{label:'3', url:'https://youtu.be/5rV9RDS1AzM?si=LuYpz-ltKUEKlWMw'}],
+      C: [{label:'1', url:'https://youtu.be/IF4t7eJQ88I?si=mEQRawOP4am20x3S'},{label:'2', url:'https://youtu.be/1wSh2FFeL2E?si=2hhO2Z6gBFPTMCdJ'},{label:'3', url:'https://youtu.be/o5CxL3CJmaM?si=zgxXnvSunaaRK7cX'}]
     };
 
     // ─── Handout Card Renderer ──────────────────────────────────
@@ -2614,9 +2676,14 @@
            </button>`;
       }).join('');
 
+      const bgmRow = (data.bgm && data.bgm.length)
+        ? '<div class="bgm-row"><span class="bgm-label">🎵 BGM</span>' + data.bgm.map(b => '<a class="bgm-btn" href="' + b.url + '" target="_blank" rel="noopener">▶ ' + b.label + '</a>').join('') + '</div>'
+        : '';
+
       if (data.html) {
         container.innerHTML = `
           <h3>${data.title}</h3>
+          ${bgmRow}
           <div class="battle-scene">${data.html}</div>
           ${revealBtn}
         `;
@@ -2626,6 +2693,7 @@
 
       container.innerHTML = `
         <h3>${data.title}</h3>
+        ${bgmRow}
         <p id="typing-box" style="white-space: pre-line;"></p>
         ${revealBtn}
       `;
@@ -2715,11 +2783,10 @@
       document.querySelectorAll('.ending-tab').forEach(t => {
         t.classList.remove('active');
       });
-      if (e) {
-        if (type === 'C') { e.target.classList.add('active-c'); }
-        else { e.target.classList.add('active'); }
-      }
-      document.getElementById('ending-content').innerHTML = `<div style="white-space: pre-line; font-size: 14px; line-height: 1.9; color: var(--c-text);">${ENDINGS[type]}</div>`;
+      if (e) { e.target.classList.add('active'); }
+      const bgms = ENDING_BGM[type];
+      const bgmRow = bgms ? '<div class="bgm-row"><span class="bgm-label">🎵 BGM</span>' + bgms.map(function(b){ return '<a class="bgm-btn" href="' + b.url + '" target="_blank" rel="noopener">▶ ' + b.label + '</a>'; }).join('') + '</div>' : '';
+      document.getElementById('ending-content').innerHTML = bgmRow + '<div style="white-space: pre-line; font-size: 14px; line-height: 1.9; color: var(--c-text);">' + ENDINGS[type] + '</div>';
     }
     showEnding('A');
 
